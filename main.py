@@ -58,7 +58,7 @@ def e_valid(email):
     elif email.count("@") != 1:
         e_err = "Email must contain exactly one @"
         return False
-    elif not "." in email:
+    elif email.count(".") != 1:
         e_err = "Email must contain a period"
     else:
         return True
