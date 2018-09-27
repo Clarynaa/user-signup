@@ -60,6 +60,7 @@ def e_valid(email):
         return False
     elif email.count(".") != 1:
         e_err = "Email must contain a period"
+        return False
     else:
         return True
 
