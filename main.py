@@ -38,6 +38,7 @@ def p_match(pw, pwc):
     global pw_err
     global pwc_err
     if pw == pwc:
+        pwc_err = ""
         return True
     else:
         pw_err = "Passwords do not match"
@@ -48,6 +49,7 @@ def e_exist(email):
     if len(email) > 0:
         return True
     else:
+        e_err = ""
         return False
 
 def e_valid(email):
@@ -62,6 +64,7 @@ def e_valid(email):
         e_err = "Email must contain a period"
         return False
     else:
+        e_err = ""
         return True
 
 
@@ -75,10 +78,15 @@ def register():
     password = request.form['password']
     passwordc = request.form['passwordc']
     email = request.form['email']
-    if u_valid(username) and p_valid(password) and p_match(password, passwordc):
-        if not e_exist(email):
+    u_valid(username)
+    p_valid(password)
+    p_match(password, passwordc)
+    exist = e_exist(email)
+    valid = e_valid(email)
+    if u_err == "" and pw_err == "" and pwc_err == "" and e_err == "":
+        if not exist:
             return render_template("welcome.html", title="Welcome", username=username, email=email, user_error=u_err, pw_error=pw_err, pwc_error=pwc_err, email_error=e_err)
-        elif e_valid(email):
+        elif valid:
             return render_template("welcome.html", title="Welcome", username=username, email=email, user_error=u_err, pw_error=pw_err, pwc_error=pwc_err, email_error=e_err)
         else:
              return render_template("signup.html", title="Signup", username=username, email=email, user_error=u_err, pw_error=pw_err, pwc_error=pwc_err, email_error=e_err)
